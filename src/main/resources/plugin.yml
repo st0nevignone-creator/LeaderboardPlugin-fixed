@@ -1,0 +1,24 @@
+name: LeaderboardPlugin
+version: '${project.version}'
+main: it.leaderboardPlugin.LeaderboardPlugin
+api-version: '1.21'
+description: Classifiche personalizzabili con ologrammi fluttuanti e NPC Citizens.
+authors: []
+prefix: LeaderboardPlugin
+
+depend: []
+softdepend: [Citizens]
+
+commands:
+  lb:
+    description: Gestione classifiche
+    usage: /lb <create|delete|list|update|move|setvalue|addvalue|reload>
+    aliases: [leaderboard, classifica]
+
+permissions:
+  leaderboard.admin:
+    description: Gestione completa delle classifiche
+    default: op
+  leaderboard.use:
+    description: Visualizza classifiche
+    default: true
