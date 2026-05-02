@@ -37,16 +37,15 @@ public class CitizensManager {
         NPCRegistry registry = CitizensAPI.getNPCRegistry();
         NPC npc = registry.createNPC(EntityType.PLAYER, "§6#1 §e" + playerName);
 
-        Location npcLoc = lb.getLocation().clone();
-        npc.spawn(npcLoc);
+        npc.spawn(lb.getLocation().clone());
         npc.setProtected(true);
         npc.data().set(NPC.Metadata.NAMEPLATE_VISIBLE, true);
-        npc.data().set(NPC.Metadata.AMBIENT_SOUND_CHANCE, 0);
 
-        // Applica skin tramite reflection per evitare problemi di package
+        // Applica skin tramite reflection
         try {
             Class<?> skinTraitClass = Class.forName("net.citizensnpcs.api.trait.trait.SkinTrait");
-            Object skinTrait = npc.getClass().getMethod("getOrAddTrait", Class.class)
+            Object skinTrait = npc.getClass()
+                    .getMethod("getOrAddTrait", Class.class)
                     .invoke(npc, skinTraitClass);
             skinTraitClass.getMethod("setSkinName", String.class, boolean.class)
                     .invoke(skinTrait, playerName, false);
@@ -61,8 +60,7 @@ public class CitizensManager {
         if (!isCitizensEnabled()) return;
         Integer npcId = npcMap.remove(lbId);
         if (npcId == null) return;
-        NPCRegistry registry = CitizensAPI.getNPCRegistry();
-        NPC npc = registry.getById(npcId);
+        NPC npc = CitizensAPI.getNPCRegistry().getById(npcId);
         if (npc != null) npc.destroy();
     }
 
